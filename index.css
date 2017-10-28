@@ -7,9 +7,12 @@ body, html {
 canvas {
     height: 100%;
     width: 100%;
-    border: 10px solid black;
+    border: 5px solid black;
     position: relative;
     background-image: url("images/foreground.jpg");
+}
+.canvas-heading {
+    text-align: center;
 }
 
 #background-image {
