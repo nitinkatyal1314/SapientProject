@@ -9,3 +9,6 @@ Following are the dependencies for this project
 
 ### How to run this ?
 Its very simple, if you downloaded the zip, extract it or clone this project and finally click on 'index.html'.
+
+## DEMO
+![Alt text](/project.gif "Optional Title")
