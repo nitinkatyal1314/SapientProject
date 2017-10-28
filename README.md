@@ -1,6 +1,6 @@
 # SapientProject
 
-This project aims to show a hidden background image as the mouse moves over the canvas. 
+This project aims to show a hidden background image as the mouse moves over the canvas. The shape of the arc exposing the hidden image changes as you refresh the page (see the demo). 
 
 ### Dependencies
 Following are the dependencies for this project
