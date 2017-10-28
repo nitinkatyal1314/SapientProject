@@ -1,0 +1,17 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+canvas {
+    height: 100%;
+    width: 100%;
+    border: 10px solid black;
+    position: relative;
+    background-image: url("images/foreground.jpg");
+}
+
+#background-image {
+    display: none;
+}
