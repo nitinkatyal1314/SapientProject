@@ -11,4 +11,4 @@ Following are the dependencies for this project
 Its very simple, if you downloaded the zip, extract it or clone this project and finally click on 'index.html'.
 
 ## DEMO
-![Alt text](/project.gif "Optional Title")
+![Alt text](/project.gif "Demo")
