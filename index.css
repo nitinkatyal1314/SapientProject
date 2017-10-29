@@ -15,6 +15,6 @@ canvas {
     text-align: center;
 }
 
-#background-image {
+#background-image, #noise-image {
     display: none;
 }

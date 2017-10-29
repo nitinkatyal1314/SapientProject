@@ -18,9 +18,14 @@
     // This retrieves the background image.
     var background_image = document.getElementById('background-image');
 
+    // This retrieves the noise image
+    var noise_image = document.getElementById('noise-image');
+
     // Here we create a pattern from the background image. This pattern will be later
     // filled as a style in the canvas.
     var pattern = context.createPattern(background_image, "repeat");
+
+    var noise_pattern = context.createPattern(noise_image, "repeat");
 
     // These variables stores the X and Y position of the mouse
     var mouseX = 0;
@@ -31,6 +36,12 @@
 
     // Number of trails to show
     var motionTrailLength = 5;
+
+    // Holds the source radius (fixed)
+    var sourceRadius = 40;
+
+    // Holds the fixed noise radius
+    var noiseFixedRadius = 50;
 
     /**
      * This method is used to get the mouse position in the canvas. These positions wil be then
@@ -45,21 +56,57 @@
         mouseY = (event.clientY - rect.top) * scaleY;
     }
 
-    // generates a random number between 10 and 50
-    var random_radius = Math.floor((Math.random()*30) + 10);
-    var random_start_angle = (Math.random()*2) * Math.PI;
-    var random_end_angle = (Math.random()*2) * Math.PI;
+    //var random_start_angle = (Math.random()*2) * Math.PI;
+    //var random_end_angle = (Math.random()*2) * Math.PI;
 
     /**
      * This method is used to create an arc for each of the positions.
      * @param x
      * @param y
+     * @param radius: Holds the radius of the circle.
+     * @param transparency: Holds the transparency value (b/w 0 -1)
      */
-    function drawCircle(x, y) {
+    function drawCircle(x, y, radius, transparency) {
+
         context.beginPath();
-        context.arc(x, y, random_radius, random_start_angle, random_end_angle, true);
-        context.fillStyle = pattern;
+        context.arc(x, y, radius, 0, 2*Math.PI, true);
+
+        if (radius == sourceRadius) {
+            context.fillStyle = pattern;
+        }
+        else {
+            context.fillStyle = noise_pattern;
+        }
+
+        context.globalAlpha = transparency;
         context.fill();
+    }
+
+    function drawEllipse(centerX, centerY, width, transparency) {
+
+        height = 1.5 * width;
+        context.beginPath();
+        context.moveTo(centerX, centerY - height/2);
+        context.bezierCurveTo(
+            centerX + width/2, centerY - height/2,
+            centerX + width/2, centerY + height/2,
+            centerX, centerY + height/2);
+
+        context.bezierCurveTo(
+            centerX - width/2, centerY + height/2,
+            centerX - width/2, centerY - height/2,
+            centerX, centerY - height/2);
+
+        if (width == sourceRadius) {
+            context.fillStyle = pattern;
+        }
+        else {
+            context.fillStyle = noise_pattern;
+        }
+
+        context.globalAlpha = transparency;
+        context.fill();
+        context.closePath();
     }
 
     /**
@@ -74,7 +121,7 @@
             y: yPos
         });
 
-        //get rid of first item (behaving like a queue)
+        // get rid of first item (behaving like a queue)
         if (positions.length > motionTrailLength) {
             positions.shift();
         }
@@ -86,12 +133,25 @@
     function updateCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
+        var radius = noiseFixedRadius;
+        var transparency = 1;
+
         for (var i = 0; i < positions.length; i++) {
-            drawCircle(positions[i].x, positions[i].y);
+
+            // generate the radius and transparency value for the noise arcs. The first one will have a fixed radius
+            // and no transparency. All other arcs will be transparent.
+            if (i > 0) {
+                radius = (2*i + noiseFixedRadius);
+                transparency = 1 / 2 * i;
+            }
+
+            //drawCircle(positions[i].x, positions[i].y, radius, transparency);
+            drawEllipse(positions[i].x, positions[i].y, radius, transparency);
         }
 
-        // draw the latest circle
-        drawCircle(mouseX, mouseY);
+        // draw the source arc
+        //drawCircle(mouseX, mouseY, sourceRadius, transparency);
+        drawEllipse(mouseX, mouseY, sourceRadius, transparency);
 
         // store it as the last position
         storeLastPosition(mouseX, mouseY);
