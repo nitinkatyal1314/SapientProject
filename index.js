@@ -84,21 +84,23 @@
 
     function drawEllipse(centerX, centerY, width, transparency) {
 
-        var height = 1.5 * width;
+        var height = 1.2 * width;
         context.beginPath();
         context.moveTo(centerX, centerY - height/2);
         context.bezierCurveTo(
-            centerX + width/2, centerY - height/2,
+            centerX/2 + width/2, centerY/2 - height/2,
             centerX + width/2, centerY + height/2,
             centerX, centerY + height/2);
 
         context.bezierCurveTo(
-            centerX - width/2, centerY + height/2,
+            centerX/2 - width/2, centerY/2 + height/2,
             centerX - width/2, centerY - height/2,
             centerX, centerY - height/2);
 
         if (width == sourceRadius) {
             context.fillStyle = pattern;
+            context.lineWidth = 5;
+            context.stroke();
         }
         else {
             context.fillStyle = noise_pattern;
@@ -133,7 +135,7 @@
     function updateCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        var radius = noiseFixedRadius;
+        var radius = null;
         var transparency = 1;
 
         for (var i = 0; i < positions.length; i++) {
@@ -142,7 +144,9 @@
             // and no transparency. All other arcs will be transparent.
             if (i > 0) {
                 radius = (2*i + noiseFixedRadius);
-                transparency = 1 / 2 * i;
+            }
+            else {
+                radius = noiseFixedRadius
             }
 
             //drawCircle(positions[i].x, positions[i].y, radius, transparency);
