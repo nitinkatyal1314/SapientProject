@@ -84,7 +84,7 @@
 
     function drawEllipse(centerX, centerY, width, transparency) {
 
-        height = 1.5 * width;
+        var height = 1.5 * width;
         context.beginPath();
         context.moveTo(centerX, centerY - height/2);
         context.bezierCurveTo(
