@@ -88,12 +88,12 @@
         context.beginPath();
         context.moveTo(centerX, centerY - height/2);
         context.bezierCurveTo(
-            centerX/2 + width/2, centerY/2 - height/2,
-            centerX + width/2, centerY + height/2,
+            centerX + width/2, centerY - height/2,
+            centerX + width, centerY/2 + height/2,
             centerX, centerY + height/2);
 
         context.bezierCurveTo(
-            centerX/2 - width/2, centerY/2 + height/2,
+            centerX - width, centerY + height/2,
             centerX - width/2, centerY - height/2,
             centerX, centerY - height/2);
 
