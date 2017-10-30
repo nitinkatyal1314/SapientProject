@@ -38,10 +38,10 @@
     var motionTrailLength = 5;
 
     // Holds the source radius (fixed)
-    var sourceRadius = 40;
+    var sourceRadius = 30;
 
     // Holds the fixed noise radius
-    var noiseFixedRadius = 50;
+    var noiseFixedRadius = 40;
 
     /**
      * This method is used to get the mouse position in the canvas. These positions wil be then
@@ -80,6 +80,39 @@
 
         context.globalAlpha = transparency;
         context.fill();
+    }
+
+    function drawSineWaveAroundCircle(centerX, centerY, radius, transparency){
+        // how far the sine wave travels relative to circle circumference
+
+        // number of sin waves to draw
+        var sineCount = 5;
+
+        context.beginPath();
+
+        // for all the angles around the circle, draw a sine wave
+        for (var angle=0;angle< 360;angle++){
+
+            // This is the amplitude of the sine wave
+            var amplitude = Math.floor(Math.random() * 5) + 1;
+            var angleInRadians = angle * Math.PI / 180;
+            var sineX = centerX + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.cos(angleInRadians);
+            var sineY = centerY + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.sin(angleInRadians);
+            context.lineTo(sineX, sineY);
+        }
+
+        if (radius == sourceRadius) {
+            context.fillStyle = pattern;
+        }
+        else {
+            context.fillStyle = noise_pattern;
+        }
+
+        context.stroke();
+        context.globalAlpha = transparency;
+        context.fill();
+        context.closePath();
+
     }
 
     function drawEllipse(centerX, centerY, width, transparency) {
@@ -150,12 +183,12 @@
             }
 
             //drawCircle(positions[i].x, positions[i].y, radius, transparency);
-            drawEllipse(positions[i].x, positions[i].y, radius, transparency);
+            drawSineWaveAroundCircle(positions[i].x, positions[i].y, radius, transparency);
         }
 
         // draw the source arc
         //drawCircle(mouseX, mouseY, sourceRadius, transparency);
-        drawEllipse(mouseX, mouseY, sourceRadius, transparency);
+        drawSineWaveAroundCircle(mouseX, mouseY, sourceRadius, transparency);
 
         // store it as the last position
         storeLastPosition(mouseX, mouseY);
