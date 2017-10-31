@@ -129,12 +129,13 @@
         if (radius == sourceRadius) {
             context.fillStyle = pattern;
             context.lineWidth = 2;
+            context.stroke();
         }
         else {
             context.fillStyle = noise_pattern;
         }
 
-        context.stroke();
+
         context.globalAlpha = transparency;
         context.fill();
         context.closePath();
