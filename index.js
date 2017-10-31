@@ -38,10 +38,19 @@
     var motionTrailLength = 5;
 
     // Holds the source radius (fixed)
-    var sourceRadius = 30;
+    var sourceRadius = 20;
 
     // Holds the fixed noise radius
-    var noiseFixedRadius = 40;
+    var noiseFixedRadius = 30;
+
+    // noiseGenerator
+    var generator = new Simple1DNoise();
+
+    // so that the generator generates values between 0 - 5
+    generator.setAmplitude(5);
+
+    // set the degree to which the random values need to be smooth out
+    generator.setScale(0.5);
 
     /**
      * This method is used to get the mouse position in the canvas. These positions wil be then
@@ -90,11 +99,17 @@
 
         context.beginPath();
 
+        var amplitude = 1;
+
+        if (radius == sourceRadius){
+            var random_amplitude = Math.floor(Math.random() * 5) - amplitude;
+            amplitude = generator.getVal(random_amplitude);
+            //amplitude = Math.floor(Math.random() * 5) - amplitude;
+        }
+
         // for all the angles around the circle, draw a sine wave
         for (var angle=0;angle< 360;angle++){
 
-            // This is the amplitude of the sine wave
-            var amplitude = Math.floor(Math.random() * 5) + 1;
             var angleInRadians = angle * Math.PI / 180;
             var sineX = centerX + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.cos(angleInRadians);
             var sineY = centerY + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.sin(angleInRadians);
@@ -194,7 +209,8 @@
         storeLastPosition(mouseX, mouseY);
 
         // This is to repaint the canvas at the browser refresh rate (60 times / sec)
-        requestAnimationFrame(updateCanvas);
+        //requestAnimationFrame(updateCanvas);
+        setTimeout(updateCanvas, 100)
     }
 
     updateCanvas();
