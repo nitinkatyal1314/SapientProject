@@ -50,7 +50,7 @@
     generator.setAmplitude(5);
 
     // set the degree to which the random values need to be smooth out
-    generator.setScale(0.5);
+    generator.setScale(0.7);
 
     /**
      * This method is used to get the mouse position in the canvas. These positions wil be then
@@ -91,26 +91,36 @@
         context.fill();
     }
 
+    /**
+     * This method is used to generate a sine wave around the circumference of a circle.
+     * @param centerX
+     * @param centerY
+     * @param radius
+     * @param transparency
+     */
     function drawSineWaveAroundCircle(centerX, centerY, radius, transparency){
         // how far the sine wave travels relative to circle circumference
 
         // number of sin waves to draw
-        var sineCount = 5;
+        var sineCount = 4;
 
         context.beginPath();
 
+        // The amplitude of the sine wave
         var amplitude = 1;
 
         if (radius == sourceRadius){
             var random_amplitude = Math.floor(Math.random() * 5) - amplitude;
+
+            // flatten out the random values
             amplitude = generator.getVal(random_amplitude);
-            //amplitude = Math.floor(Math.random() * 5) - amplitude;
         }
 
         // for all the angles around the circle, draw a sine wave
         for (var angle=0;angle< 360;angle++){
 
             var angleInRadians = angle * Math.PI / 180;
+
             var sineX = centerX + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.cos(angleInRadians);
             var sineY = centerY + (radius + amplitude*Math.sin(sineCount*angleInRadians))*Math.sin(angleInRadians);
             context.lineTo(sineX, sineY);
@@ -118,6 +128,7 @@
 
         if (radius == sourceRadius) {
             context.fillStyle = pattern;
+            context.lineWidth = 2;
         }
         else {
             context.fillStyle = noise_pattern;
@@ -130,6 +141,13 @@
 
     }
 
+    /**
+     * This method is used to generate Elliptical shape using canvas beizercurve.
+     * @param centerX
+     * @param centerY
+     * @param width
+     * @param transparency
+     */
     function drawEllipse(centerX, centerY, width, transparency) {
 
         var height = 1.2 * width;
